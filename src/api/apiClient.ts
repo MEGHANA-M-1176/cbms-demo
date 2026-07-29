@@ -88,11 +88,17 @@ apiClient.interceptors.request.use(
           ],
           status: 200, statusText: 'OK', headers: {}, config
         });
-      } else if (url.includes('/customers/search')) {
+      } else if (url.includes('/customers/search') || url.includes('/customers')) {
         config.adapter = async () => ({
           data: [
             { id: 'c1', fullName: 'Dinesh Kumar', memberId: 'MEM-001', phone: '9876543210' },
-            { id: 'c2', fullName: 'Dinesh Sharma', memberId: 'MEM-002', phone: '9876543211' }
+            { id: 'c2', fullName: 'Dinesh Sharma', memberId: 'MEM-002', phone: '9876543211' },
+            { id: 'c3', fullName: 'Priya Patel', memberId: 'MEM-003', phone: '9876543212' },
+            { id: 'c4', fullName: 'Priya Singh', memberId: 'MEM-004', phone: '9876543213' },
+            { id: 'c5', fullName: 'Rahul Verma', memberId: 'MEM-005', phone: '9876543214' },
+            { id: 'c6', fullName: 'Anita Desai', memberId: 'MEM-006', phone: '9876543215' },
+            { id: 'c7', fullName: 'Vikram Mehta', memberId: 'MEM-007', phone: '9876543216' },
+            { id: 'c8', fullName: 'Sneha Reddy', memberId: 'MEM-008', phone: '9876543217' }
           ],
           status: 200, statusText: 'OK', headers: {}, config
         });
