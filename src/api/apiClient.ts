@@ -1,0 +1,178 @@
+import axios from 'axios';
+
+const apiClient = axios.create({
+  baseURL: '/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Flag to prevent multiple concurrent token refresh calls
+let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (token) {
+      prom.resolve(token);
+    } else {
+      prom.reject(error);
+    }
+  });
+  failedQueue = [];
+};
+
+// Request Interceptor
+apiClient.interceptors.request.use(
+  (config) => {
+    // VERCEL DEMO MOCK: Short-circuit specific routes and return fake data
+    const url = config.url || '';
+    if (url.includes('/dashboard/summary')) {
+      config.adapter = async () => ({
+        data: {
+          totalDeposits: { amount: 15420000, accountCount: 124 },
+          totalLoansOutstanding: 8500000,
+          loans: {
+            totalSecuredLoansBalance: 6000000,
+            totalUnsecuredLoansBalance: 2500000,
+            running: 42,
+            closed: 15,
+            interestEarned: 450000,
+            totalCollections: 1200000,
+            upcomingEmis: 8,
+            overdue: 2,
+            npaCount: 1,
+            npaPercentage: 2.3
+          },
+          financials: { profitability: 1200000, workingCapital: 5500000, turnover: 45000000 },
+          members: { active: 350, inactive: 45, dormant: 12 },
+          staffActiveToday: 5
+        },
+        status: 200, statusText: 'OK', headers: {}, config
+      });
+    } else if (url.includes('/dashboard/trend') || url.includes('/dashboard/interest-payable/trend')) {
+      config.adapter = async () => ({
+        data: [
+          { period: 'Jan', deposits: 1000000, withdrawals: 800000, loanCollection: 500000, totalAccrued: 20000 },
+          { period: 'Feb', deposits: 1200000, withdrawals: 900000, loanCollection: 600000, totalAccrued: 25000 },
+          { period: 'Mar', deposits: 1500000, withdrawals: 1100000, loanCollection: 700000, totalAccrued: 30000 }
+        ],
+        status: 200, statusText: 'OK', headers: {}, config
+      });
+    } else if (url.includes('/dashboard/period-comparison')) {
+      config.adapter = async () => ({
+        data: { sameLastYear: { growthVsCurrent: { deposits: 12.5, loanCollection: 8.4 } } },
+        status: 200, statusText: 'OK', headers: {}, config
+      });
+    } else if (url.includes('/dashboard/staff-activity/by-branch')) {
+      config.adapter = async () => ({
+        data: [
+          { branchId: 'b1', branchName: 'Main Branch', activeToday: 3, totalStaff: 5, activePercentage: 60 },
+          { branchId: 'b2', branchName: 'Downtown', activeToday: 2, totalStaff: 4, activePercentage: 50 }
+        ],
+        status: 200, statusText: 'OK', headers: {}, config
+      });
+    } else if (url.includes('/dashboard/staff-activity')) {
+      config.adapter = async () => ({
+        data: [
+          { userId: '1', fullName: 'Demo Staff', employeeCode: 'EMP001', role: 'CASHIER', activeToday: true, lastLoginAt: new Date().toISOString() }
+        ],
+        status: 200, statusText: 'OK', headers: {}, config
+      });
+    } else if (url.includes('/auth/logout')) {
+      config.adapter = async () => ({ data: { success: true }, status: 200, statusText: 'OK', headers: {}, config });
+    }
+
+    const token = localStorage.getItem('accessToken');
+    if (token && config.headers) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor for handling token refresh
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Avoid infinite loop if auth requests fail
+    if (originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/refresh')) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            return apiClient(originalRequest);
+          })
+          .catch((err) => {
+            if (err.response?.status === 401) handleLogout();
+            return Promise.reject(err);
+          });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (!refreshToken) {
+        handleLogout();
+        return Promise.reject(error);
+      }
+
+      try {
+        const { data } = await axios.post('/api/v1/auth/refresh', {
+          refreshToken,
+        });
+
+        const newAccessToken = data.accessToken;
+        const newRefreshToken = data.refreshToken;
+
+        localStorage.setItem('accessToken', newAccessToken);
+        localStorage.setItem('refreshToken', newRefreshToken);
+
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+        processQueue(null, newAccessToken);
+        isRefreshing = false;
+
+        return apiClient(originalRequest).catch((err) => {
+          if (err.response?.status === 401) handleLogout();
+          return Promise.reject(err);
+        });
+      } catch (refreshError) {
+        processQueue(refreshError, null);
+        isRefreshing = false;
+        handleLogout();
+        return Promise.reject(refreshError);
+      }
+    } else if (error.response?.status === 401 && originalRequest._retry) {
+      handleLogout();
+      return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+function handleLogout() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('employeeProfile');
+  if (window.location.pathname !== '/login') {
+    window.location.href = '/login';
+  }
+}
+
+export default apiClient;
+
