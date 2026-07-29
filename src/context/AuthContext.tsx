@@ -32,24 +32,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     // VERCEL DEMO MOCK: Only runs if hosted on Vercel to preserve local functionality
     const isVercel = window.location.hostname.includes('vercel.app');
-    if (isVercel && email === 'admin@demo.com' && password === 'Demo123!') {
-      const profile = {
-        id: 'mock-admin-id',
-        fullName: 'Demo Administrator',
-        email: 'admin@demo.com',
-        role: { name: 'SUPER_ADMIN', permissions: [{ permission: { code: 'CONFIG_EDIT' } }] },
-        branchId: 'mock-branch-id'
-      };
-      const accessToken = 'mock-access-token';
-      const refreshToken = 'mock-refresh-token';
+    if (isVercel) {
+      if (email === 'admin@demo.com' && password === 'Demo123!') {
+        const profile = {
+          id: 'mock-admin-id',
+          fullName: 'Demo Administrator',
+          email: 'admin@demo.com',
+          role: { name: 'SUPER_ADMIN', permissions: [{ permission: { code: 'CONFIG_EDIT' } }] },
+          branchId: 'mock-branch-id'
+        };
+        const accessToken = 'mock-access-token';
+        const refreshToken = 'mock-refresh-token';
 
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('employeeProfile', JSON.stringify(profile));
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('employeeProfile', JSON.stringify(profile));
 
-      setToken(accessToken);
-      setUser(profile);
-      return;
+        setToken(accessToken);
+        setUser(profile);
+        return;
+      } else if (email === 'staff@demo.com' && password === 'Demo123!') {
+        const profile = {
+          id: 'mock-staff-id',
+          fullName: 'Demo Staff Member',
+          email: 'staff@demo.com',
+          role: { name: 'EMPLOYEE', permissions: [] },
+          branchId: 'mock-branch-id'
+        };
+        const accessToken = 'mock-access-token';
+        const refreshToken = 'mock-refresh-token';
+
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('employeeProfile', JSON.stringify(profile));
+
+        setToken(accessToken);
+        setUser(profile);
+        return;
+      }
     }
 
     try {
