@@ -106,6 +106,23 @@ apiClient.interceptors.request.use(
           data: [],
           status: 200, statusText: 'OK', headers: {}, config
         });
+      } else if (url.includes('/field-visits/dashboard/metrics')) {
+        config.adapter = async () => ({
+          data: { total: 10, pending: 5, inProgress: 2, completed: 3 },
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/field-visits/tasks')) {
+        config.adapter = async () => ({
+          data: [
+            { id: '1', title: 'KYC Verification', status: 'PENDING', priority: 'HIGH', customerName: 'Dinesh Kumar', createdAt: new Date().toISOString() }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/field-visits/configs/')) {
+        config.adapter = async () => ({
+          data: [],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
       }
     }
 
