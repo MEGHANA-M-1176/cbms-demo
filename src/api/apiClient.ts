@@ -25,62 +25,88 @@ const processQueue = (error: any, token: string | null = null) => {
 // Request Interceptor
 apiClient.interceptors.request.use(
   (config) => {
-    // VERCEL DEMO MOCK: Short-circuit specific routes and return fake data
+    // VERCEL DEMO MOCK: Only runs if hosted on Vercel to preserve local functionality
+    const isVercel = window.location.hostname.includes('vercel.app');
     const url = config.url || '';
-    if (url.includes('/dashboard/summary')) {
-      config.adapter = async () => ({
-        data: {
-          totalDeposits: { amount: 15420000, accountCount: 124 },
-          totalLoansOutstanding: 8500000,
-          loans: {
-            totalSecuredLoansBalance: 6000000,
-            totalUnsecuredLoansBalance: 2500000,
-            running: 42,
-            closed: 15,
-            interestEarned: 450000,
-            totalCollections: 1200000,
-            upcomingEmis: 8,
-            overdue: 2,
-            npaCount: 1,
-            npaPercentage: 2.3
+    
+    if (isVercel) {
+      if (url.includes('/dashboard/summary')) {
+        config.adapter = async () => ({
+          data: {
+            totalDeposits: { amount: 15420000, accountCount: 124 },
+            totalLoansOutstanding: 8500000,
+            loans: {
+              totalSecuredLoansBalance: 6000000,
+              totalUnsecuredLoansBalance: 2500000,
+              running: 42, closed: 15, interestEarned: 450000,
+              totalCollections: 1200000, upcomingEmis: 8, overdue: 2,
+              npaCount: 1, npaPercentage: 2.3
+            },
+            financials: { profitability: 1200000, workingCapital: 5500000, turnover: 45000000 },
+            members: { active: 350, inactive: 45, dormant: 12 },
+            staffActiveToday: 5
           },
-          financials: { profitability: 1200000, workingCapital: 5500000, turnover: 45000000 },
-          members: { active: 350, inactive: 45, dormant: 12 },
-          staffActiveToday: 5
-        },
-        status: 200, statusText: 'OK', headers: {}, config
-      });
-    } else if (url.includes('/dashboard/trend') || url.includes('/dashboard/interest-payable/trend')) {
-      config.adapter = async () => ({
-        data: [
-          { period: 'Jan', deposits: 1000000, withdrawals: 800000, loanCollection: 500000, totalAccrued: 20000 },
-          { period: 'Feb', deposits: 1200000, withdrawals: 900000, loanCollection: 600000, totalAccrued: 25000 },
-          { period: 'Mar', deposits: 1500000, withdrawals: 1100000, loanCollection: 700000, totalAccrued: 30000 }
-        ],
-        status: 200, statusText: 'OK', headers: {}, config
-      });
-    } else if (url.includes('/dashboard/period-comparison')) {
-      config.adapter = async () => ({
-        data: { sameLastYear: { growthVsCurrent: { deposits: 12.5, loanCollection: 8.4 } } },
-        status: 200, statusText: 'OK', headers: {}, config
-      });
-    } else if (url.includes('/dashboard/staff-activity/by-branch')) {
-      config.adapter = async () => ({
-        data: [
-          { branchId: 'b1', branchName: 'Main Branch', activeToday: 3, totalStaff: 5, activePercentage: 60 },
-          { branchId: 'b2', branchName: 'Downtown', activeToday: 2, totalStaff: 4, activePercentage: 50 }
-        ],
-        status: 200, statusText: 'OK', headers: {}, config
-      });
-    } else if (url.includes('/dashboard/staff-activity')) {
-      config.adapter = async () => ({
-        data: [
-          { userId: '1', fullName: 'Demo Staff', employeeCode: 'EMP001', role: 'CASHIER', activeToday: true, lastLoginAt: new Date().toISOString() }
-        ],
-        status: 200, statusText: 'OK', headers: {}, config
-      });
-    } else if (url.includes('/auth/logout')) {
-      config.adapter = async () => ({ data: { success: true }, status: 200, statusText: 'OK', headers: {}, config });
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/dashboard/trend') || url.includes('/dashboard/interest-payable/trend')) {
+        config.adapter = async () => ({
+          data: [
+            { period: 'Jan', deposits: 1000000, withdrawals: 800000, loanCollection: 500000, totalAccrued: 20000 },
+            { period: 'Feb', deposits: 1200000, withdrawals: 900000, loanCollection: 600000, totalAccrued: 25000 },
+            { period: 'Mar', deposits: 1500000, withdrawals: 1100000, loanCollection: 700000, totalAccrued: 30000 }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/dashboard/period-comparison')) {
+        config.adapter = async () => ({
+          data: { sameLastYear: { growthVsCurrent: { deposits: 12.5, loanCollection: 8.4 } } },
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/dashboard/staff-activity/by-branch')) {
+        config.adapter = async () => ({
+          data: [
+            { branchId: 'b1', branchName: 'Main Branch', activeToday: 3, totalStaff: 5, activePercentage: 60 },
+            { branchId: 'b2', branchName: 'Downtown', activeToday: 2, totalStaff: 4, activePercentage: 50 }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/dashboard/staff-activity')) {
+        config.adapter = async () => ({
+          data: [
+            { userId: '1', fullName: 'Demo Staff', employeeCode: 'EMP001', role: 'CASHIER', activeToday: true, lastLoginAt: new Date().toISOString() }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/auth/logout')) {
+        config.adapter = async () => ({ data: { success: true }, status: 200, statusText: 'OK', headers: {}, config });
+      } else if (url.includes('/config/loan-types')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'lt1', name: 'Personal Loan', maxAmount: 500000 },
+            { id: 'lt2', name: 'Gold Loan', maxAmount: 1000000 },
+            { id: 'lt3', name: 'Housing Loan', maxAmount: 2500000 }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/customers/search')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'c1', fullName: 'Dinesh Kumar', memberId: 'MEM-001', phone: '9876543210' },
+            { id: 'c2', fullName: 'Dinesh Sharma', memberId: 'MEM-002', phone: '9876543211' }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/loans/calculate') || url.includes('/loans/eligibility')) {
+        config.adapter = async () => ({
+          data: { eligible: true, monthlyEmi: 4500, maxEligibleAmount: 100000 },
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/loans/assigned') || url.includes('/loans/pending') || url.includes('/loans/approved')) {
+        config.adapter = async () => ({
+          data: [],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
+      }
     }
 
     const token = localStorage.getItem('accessToken');

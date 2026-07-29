@@ -30,8 +30,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
-    // VERCEL DEMO MOCK
-    if (email === 'admin@demo.com' && password === 'Demo123!') {
+    // VERCEL DEMO MOCK: Only runs if hosted on Vercel to preserve local functionality
+    const isVercel = window.location.hostname.includes('vercel.app');
+    if (isVercel && email === 'admin@demo.com' && password === 'Demo123!') {
       const profile = {
         id: 'mock-admin-id',
         fullName: 'Demo Administrator',
