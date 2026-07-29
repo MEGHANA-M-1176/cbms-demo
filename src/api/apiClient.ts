@@ -178,6 +178,14 @@ apiClient.interceptors.request.use(
             { id: 'u5', fullName: 'Vikram Singh', email: 'vikram@demo.com' }
           ], status: 200, statusText: 'OK', headers: {}, config
         });
+      } else if (url.includes('/hrms/payslips')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'ps1', employee: { fullName: 'Ramesh Kumar', employeeCode: 'EMP-001' }, pfDeduction: 1800, esiDeduction: 250, taxDeduction: 3200, netSalary: 45000 },
+            { id: 'ps2', employee: { fullName: 'Sneha Sharma', employeeCode: 'EMP-002' }, pfDeduction: 2200, esiDeduction: 300, taxDeduction: 4500, netSalary: 55000 },
+            { id: 'ps3', employee: { fullName: 'Arjun Reddy', employeeCode: 'EMP-003' }, pfDeduction: 1500, esiDeduction: 200, taxDeduction: 1800, netSalary: 38500 }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
       } else {
         // Fallback for any other unmocked endpoint (My Leaves, Operations, HRMS, etc)
         config.adapter = async () => ({
