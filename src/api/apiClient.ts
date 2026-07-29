@@ -123,6 +123,12 @@ apiClient.interceptors.request.use(
           data: [],
           status: 200, statusText: 'OK', headers: {}, config
         });
+      } else {
+        // Fallback for any other unmocked endpoint (My Leaves, Operations, HRMS, etc)
+        config.adapter = async () => ({
+          data: [],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
       }
     }
 
