@@ -313,34 +313,38 @@ export const Hrms: React.FC = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: 24 }}>
-        {/* Left: Leave Management Shortcut */}
-        <div className="panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', textAlign: 'center' }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(245, 158, 11, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-            <Calendar size={32} style={{ color: '#f59e0b' }} />
-          </div>
-          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 600, marginBottom: '12px' }}>
-            Leave Management
+        {/* Left: Staff Productivity Tracker */}
+        <div className="panel" style={{ display: 'flex', flexDirection: 'column' }}>
+          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 600, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Clock size={18} style={{ color: '#f59e0b' }} />
+            <span>Staff Productivity Tracker</span>
           </h4>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '24px' }}>
-            Leave management has moved to a dedicated admin dashboard for better oversight and company calendar tracking.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '16px' }}>
+            Search staff to check their weekly time logs and task completion.
           </p>
-          <button 
-            onClick={() => window.location.href = '/leave-management'}
-            className="btn btn-primary"
-            style={{ padding: '10px 24px', backgroundColor: '#f59e0b', color: '#fff', border: 'none' }}
-          >
-            Open Leave Dashboard ({leaves.length} records)
-          </button>
 
-          <form onSubmit={handleApplyLeave} style={{ display: 'none' }}>
-            <select value={selectedPolicy} onChange={e => setSelectedPolicy(e.target.value)}>
-              {leavePolicies.map((p: any) => <option key={p.id} value={p.id}>{p.name}</option>)}
+          <div style={{ display: 'flex', gap: 8, marginBottom: '24px' }}>
+            <select className="form-control" style={{ flex: 1 }}>
+              <option value="">Select Staff...</option>
+              {employees.map((e: any) => <option key={e.id} value={e.id}>{e.fullName}</option>)}
             </select>
-            <input type="date" value={leaveStart} onChange={e => setLeaveStart(e.target.value)} />
-            <input type="date" value={leaveEnd} onChange={e => setLeaveEnd(e.target.value)} />
-            <input type="text" value={leaveReason} onChange={e => setLeaveReason(e.target.value)} />
-            <button type="submit">Apply</button>
-          </form>
+            <button className="btn btn-primary" onClick={(e) => { e.preventDefault(); /* dummy search */ }}>Search</button>
+          </div>
+
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Hours Logged (Week)</span>
+              <span style={{ fontWeight: 600, color: '#10b981' }}>42.5 hrs</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Tasks Completed</span>
+              <span style={{ fontWeight: 600 }}>18 / 20</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Productivity Score</span>
+              <span className="badge badge-success">92%</span>
+            </div>
+          </div>
         </div>
 
         {/* Middle: Payroll & Payslips */}
