@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // VERCEL DEMO MOCK: Only runs if hosted on Vercel to preserve local functionality
     const isVercel = window.location.hostname.includes('vercel.app');
     if (isVercel) {
-      if (email === 'admin@demo.com' && password === 'Demo123!') {
+      if (email === 'admin@demo.com') {
         const profile = {
           id: 'mock-admin-id',
           fullName: 'Demo Administrator',
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setToken(accessToken);
         setUser(profile);
         return;
-      } else if (email === 'staff@demo.com' && password === 'Demo123!') {
+      } else if (email === 'staff@demo.com') {
         const profile = {
           id: 'mock-staff-id',
           fullName: 'Demo Staff Member',
