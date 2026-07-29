@@ -331,18 +331,38 @@ export const Hrms: React.FC = () => {
             <button className="btn btn-primary" onClick={(e) => { e.preventDefault(); /* dummy search */ }}>Search</button>
           </div>
 
-          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Hours Logged (Week)</span>
-              <span style={{ fontWeight: 600, color: '#10b981' }}>42.5 hrs</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Arrival time</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f43f5e' }}>9:10 AM</div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Tasks Completed</span>
-              <span style={{ fontWeight: 600 }}>18 / 20</span>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Left time</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>ONLINE</div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Productivity Score</span>
-              <span className="badge badge-success">92%</span>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Productive time</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>3h 13m</div>
+            </div>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Desktime time</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>6h 31m</div>
+            </div>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Time at work</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>7h 9m</div>
+            </div>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Projects time</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>-</div>
+            </div>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Effectiveness</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f43f5e' }}>37.97%</div>
+            </div>
+            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Productivity</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f43f5e' }}>49.44%</div>
             </div>
           </div>
         </div>
