@@ -124,10 +124,32 @@ apiClient.interceptors.request.use(
           ],
           status: 200, statusText: 'OK', headers: {}, config
         });
+      } else if (url.includes('/field-visits/configs/feedback')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'fb1', label: 'Customer Met - Interested', actionType: 'COMPLETE' },
+            { id: 'fb2', label: 'Customer Met - Not Interested', actionType: 'COMPLETE' },
+            { id: 'fb3', label: 'Customer Requested Later Time', actionType: 'RESCHEDULE' },
+            { id: 'fb4', label: 'Door Locked / Unavailable', actionType: 'RESCHEDULE' },
+            { id: 'fb5', label: 'Address Not Found', actionType: 'COMPLETE' }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/field-visits/configs/reschedule-reasons')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'rr1', name: 'Customer Out of Station' },
+            { id: 'rr2', name: 'Customer Busy - Callback Later' },
+            { id: 'rr3', name: 'Agent Delayed / Out of Time' }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
       } else if (url.includes('/field-visits/configs/')) {
         config.adapter = async () => ({
-          data: [],
-          status: 200, statusText: 'OK', headers: {}, config
+          data: [
+            { id: 'opt1', name: 'High / Critical', color: '#f43f5e' },
+            { id: 'opt2', name: 'Medium / Standard', color: '#f59e0b' },
+            { id: 'opt3', name: 'Low / Routine', color: '#10b981' },
+            { id: 'opt4', name: 'General Information', color: '#3b82f6' }
+          ], status: 200, statusText: 'OK', headers: {}, config
         });
       } else if (url.includes('/accounts?accountNumber=')) {
         config.adapter = async () => ({
