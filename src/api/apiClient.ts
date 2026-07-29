@@ -123,6 +123,20 @@ apiClient.interceptors.request.use(
           data: [],
           status: 200, statusText: 'OK', headers: {}, config
         });
+      } else if (url.includes('/accounts?accountNumber=')) {
+        config.adapter = async () => ({
+          data: [
+            { 
+              id: 'acc1', 
+              accountNumber: 'SAV000001', 
+              accountType: { name: 'Savings Account' }, 
+              balance: 55000, 
+              status: 'ACTIVE',
+              customer: { fullName: 'Dinesh Kumar', phone: '9876543210' } 
+            }
+          ],
+          status: 200, statusText: 'OK', headers: {}, config
+        });
       } else {
         // Fallback for any other unmocked endpoint (My Leaves, Operations, HRMS, etc)
         config.adapter = async () => ({
