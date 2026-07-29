@@ -5,7 +5,7 @@ import { User, LogOut, ArrowLeft, Mail, Phone, Briefcase, MapPin, Shield, Activi
 import apiClient from '../api/apiClient';
 
 export const Profile: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateProfile } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
 
