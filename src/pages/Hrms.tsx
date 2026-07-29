@@ -231,6 +231,60 @@ export const Hrms: React.FC = () => {
         </button>
       </div>
 
+      {/* Top: Staff Productivity Tracker */}
+      <div className="panel" style={{ display: 'flex', flexDirection: 'column', marginBottom: 24 }}>
+        <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 600, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Clock size={18} style={{ color: '#f59e0b' }} />
+          <span>Staff Productivity Tracker</span>
+        </h4>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '16px' }}>
+          Search staff to check their weekly time logs and task completion.
+        </p>
+
+        <div style={{ display: 'flex', gap: 16, marginBottom: '24px', alignItems: 'center', maxWidth: '400px' }}>
+          <select className="form-control" style={{ flex: 1, margin: 0 }}>
+            <option value="">Select Staff...</option>
+            {employees.map((e: any) => <option key={e.id} value={e.id}>{e.fullName}</option>)}
+          </select>
+          <button className="btn btn-primary" onClick={(e) => { e.preventDefault(); /* dummy search */ }}>Search</button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Arrival time</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#f43f5e' }}>9:10 <span style={{fontSize: '1rem'}}>AM</span></div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Left time</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#10b981' }}>ONLINE</div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Productive time</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#10b981' }}>3<span style={{fontSize: '1rem'}}>h</span> 13<span style={{fontSize: '1rem'}}>m</span></div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Desktime time</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#10b981' }}>6<span style={{fontSize: '1rem'}}>h</span> 31<span style={{fontSize: '1rem'}}>m</span></div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Time at work</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#10b981' }}>7<span style={{fontSize: '1rem'}}>h</span> 9<span style={{fontSize: '1rem'}}>m</span></div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Projects time</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>-</div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Effectiveness</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#f43f5e' }}>37.97<span style={{fontSize: '1rem'}}>%</span></div>
+          </div>
+          <div style={{ padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '12px' }}>Productivity</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 600, color: '#f43f5e' }}>49.44<span style={{fontSize: '1rem'}}>%</span></div>
+          </div>
+        </div>
+      </div>
+
       {/* Workforce Analytics & Query Assistant Row */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24, marginBottom: 24 }}>
         {/* Workforce Analytics */}
@@ -312,60 +366,7 @@ export const Hrms: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: 24 }}>
-        {/* Left: Staff Productivity Tracker */}
-        <div className="panel" style={{ display: 'flex', flexDirection: 'column' }}>
-          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 600, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Clock size={18} style={{ color: '#f59e0b' }} />
-            <span>Staff Productivity Tracker</span>
-          </h4>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '16px' }}>
-            Search staff to check their weekly time logs and task completion.
-          </p>
-
-          <div style={{ display: 'flex', gap: 8, marginBottom: '24px' }}>
-            <select className="form-control" style={{ flex: 1 }}>
-              <option value="">Select Staff...</option>
-              {employees.map((e: any) => <option key={e.id} value={e.id}>{e.fullName}</option>)}
-            </select>
-            <button className="btn btn-primary" onClick={(e) => { e.preventDefault(); /* dummy search */ }}>Search</button>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Arrival time</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f43f5e' }}>9:10 AM</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Left time</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>ONLINE</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Productive time</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>3h 13m</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Desktime time</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>6h 31m</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Time at work</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#10b981' }}>7h 9m</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Projects time</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>-</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Effectiveness</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f43f5e' }}>37.97%</div>
-            </div>
-            <div style={{ padding: '12px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '8px' }}>Productivity</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#f43f5e' }}>49.44%</div>
-            </div>
-          </div>
-        </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 24 }}>
 
         {/* Middle: Payroll & Payslips */}
         <div className="panel">
