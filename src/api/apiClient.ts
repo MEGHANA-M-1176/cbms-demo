@@ -137,6 +137,41 @@ apiClient.interceptors.request.use(
           ],
           status: 200, statusText: 'OK', headers: {}, config
         });
+      } else if (url.includes('/config/payment-modes')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'pm1', name: 'Cash' }, { id: 'pm2', name: 'Account Transfer' },
+            { id: 'pm3', name: 'Cheque' }, { id: 'pm4', name: 'NEFT' },
+            { id: 'pm5', name: 'RTGS' }, { id: 'pm6', name: 'IMPS' },
+            { id: 'pm7', name: 'UPI' }, { id: 'pm8', name: 'Demand Draft' }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/config/deposit-types')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'dt1', name: 'Fixed Deposit (FD)' }, { id: 'dt2', name: 'Recurring Deposit (RD)' },
+            { id: 'dt3', name: 'Savings Account' }, { id: 'dt4', name: 'Current Account' },
+            { id: 'dt5', name: 'Pigmy Deposit' }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/hrms/leaves/policies')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'lp1', name: 'ANNUAL', totalDays: 12 }, { id: 'lp2', name: 'SICK', totalDays: 6 },
+            { id: 'lp3', name: 'CASUAL', totalDays: 4 }, { id: 'lp4', name: 'MATERNITY', totalDays: 180 },
+            { id: 'lp5', name: 'PATERNITY', totalDays: 15 }, { id: 'lp6', name: 'UNPAID', totalDays: 365 }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
+      } else if (url.includes('/users') || url.includes('/field-visits/employees')) {
+        config.adapter = async () => ({
+          data: [
+            { id: 'u1', fullName: 'John Doe', email: 'john@demo.com' },
+            { id: 'u2', fullName: 'Jane Smith', email: 'jane@demo.com' },
+            { id: 'u3', fullName: 'Alice Johnson', email: 'alice@demo.com' },
+            { id: 'u4', fullName: 'Bob Brown', email: 'bob@demo.com' },
+            { id: 'u5', fullName: 'Charlie Davis', email: 'charlie@demo.com' }
+          ], status: 200, statusText: 'OK', headers: {}, config
+        });
       } else {
         // Fallback for any other unmocked endpoint (My Leaves, Operations, HRMS, etc)
         config.adapter = async () => ({
