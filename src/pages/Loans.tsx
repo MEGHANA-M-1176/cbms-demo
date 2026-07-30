@@ -492,7 +492,7 @@ export const Loans: React.FC = () => {
       <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.75rem', fontWeight: 600 }}>Loan Portfolio Dashboard</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Monitor and manage loans assigned to your profile</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Monitor and manage active loans across all branches</p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowNewLoanModal(true)}>
           New Loan Application
@@ -501,7 +501,7 @@ export const Loans: React.FC = () => {
 
       <div style={{ display: 'flex', gap: '24px', marginBottom: '24px', borderBottom: '1px solid var(--panel-border)', paddingBottom: '12px' }}>
         <button onClick={() => setActiveTab('MY_PORTFOLIO')} style={{ background: 'none', border: 'none', padding: '8px 16px', cursor: 'pointer', fontSize: '1rem', fontWeight: activeTab === 'MY_PORTFOLIO' ? 600 : 400, color: activeTab === 'MY_PORTFOLIO' ? 'var(--text-primary)' : 'var(--text-secondary)', borderBottom: activeTab === 'MY_PORTFOLIO' ? '2px solid #10b981' : '2px solid transparent' }}>
-          My Portfolio
+          Active Loans
         </button>
         <button onClick={() => setActiveTab('PENDING')} style={{ background: 'none', border: 'none', padding: '8px 16px', cursor: 'pointer', fontSize: '1rem', fontWeight: activeTab === 'PENDING' ? 600 : 400, color: activeTab === 'PENDING' ? 'var(--text-primary)' : 'var(--text-secondary)', borderBottom: activeTab === 'PENDING' ? '2px solid #10b981' : '2px solid transparent' }}>
           Pending Applications {pendingLoans.length > 0 && <span style={{ background: '#ef4444', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', marginLeft: '8px' }}>{pendingLoans.length}</span>}
